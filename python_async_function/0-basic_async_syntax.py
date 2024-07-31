@@ -6,6 +6,7 @@ Generates a random delay and then waits for that delay.
 import asyncio
 import random
 
+
 async def wait_random(max_delay: int = 10) -> float:
     """
     Generates a random delay and then waits for that delay.
