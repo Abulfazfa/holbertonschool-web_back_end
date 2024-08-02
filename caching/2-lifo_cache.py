@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-""" FIFO caching """
+""" LIFO caching """
 
 from base_caching import BaseCaching
 
 
-class FIFOCache (BaseCaching):
-    """ FIFOCache class"""
+class LIFOCache (BaseCaching):
+    """ LIFOCache class"""
 
     def __init__(self):
         """ Initiliaze """
@@ -16,7 +16,7 @@ class FIFOCache (BaseCaching):
         if key and item:
             self.cache_data[key] = item
             if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-                last_item = list(self.cache_data.keys())[-1]
+                last_item = next(reversed(self.cache_data))
                 print("DISCARD: {}".format(last_item))
                 self.cache_data.pop(last_item)
 
@@ -24,4 +24,4 @@ class FIFOCache (BaseCaching):
         """ Get an item by key """
         if key in self.cache_data:
             return self.cache_data[key]
-            
+
