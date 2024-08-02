@@ -19,9 +19,10 @@ class LIFOCache (BaseCaching):
                 last_item = next(reversed(self.cache_data))
                 print("DISCARD: {}".format(last_item))
                 self.cache_data.pop(last_item)
+                self.cache_data = reversed(self.cache_data)
 
     def get(self, key):
-        """ Get an item by key """
+        """ Get an item """
         if key in self.cache_data:
             return self.cache_data[key]
 
