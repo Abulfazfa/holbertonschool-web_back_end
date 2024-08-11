@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="79c1cca3-8c74-468c-bcd4-d0836c0c9556" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/3-lru_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/3-lru_cache.py" afterDir="false" />
-    </list>
+    <list default="true" id="79c1cca3-8c74-468c-bcd4-d0836c0c9556" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +50,7 @@
       <option name="presentableId" value="Default" />
       <updated>1722596550637</updated>
       <workItem from="1722596551663" duration="2000" />
-      <workItem from="1723118828580" duration="419000" />
+      <workItem from="1723118828580" duration="612000" />
     </task>
     <servers />
   </component>
