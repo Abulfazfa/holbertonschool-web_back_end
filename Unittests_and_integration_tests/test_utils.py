@@ -2,6 +2,7 @@
 """ Unittests for utils.py
 """
 
+
 import unittest
 from unittest.mock import patch
 from utils import memoize
@@ -10,6 +11,7 @@ from utils import memoize
 class TestMemoize(unittest.TestCase):
 
     def test_memoize(self):
+        # Define the class with the memoize decorator
         class TestClass:
             def a_method(self):
                 return 42
@@ -21,7 +23,7 @@ class TestMemoize(unittest.TestCase):
         # Create an instance of TestClass
         test_instance = TestClass()
 
-        # Patch a_method to observe its behavior when a_property is accessed
+        # Patch the a_method to observe its behavior when a_property is accessed
         with patch.object(test_instance, 'a_method', return_value=42) as mock_method:
             # Access a_property twice
             first_call = test_instance.a_property
@@ -35,4 +37,3 @@ class TestMemoize(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
