@@ -2,34 +2,33 @@
 """ Unittests for utils.py
 """
 
-
 import unittest
 from unittest.mock import patch
-from utils import memoize
-
+from utils import access_nested_map, get_json, memoize
+from parameterized import parameterized
 
 class TestMemoize(unittest.TestCase):
-    """ TestMemoize class """
+    """ class to test memoize
+    """
 
     def test_memoize(self):
-        """
-
-        Define the class with the memoize decorator
-
+        """ Test memoize
         """
         class TestClass:
-            """ TestClass class """
+            """ Test class
+            """
+
             def a_method(self):
-                """ method """
+                """a method
+                """
                 return 42
 
             @memoize
             def a_property(self):
-                """ decorator """
+                """decorator
+                """
                 return self.a_method()
 
-
-        # Patch the a_method to observe its behavior when a_property is accessed
         with patch.object(TestClass, 'a_method') as mock:
             test_class = TestClass()
             test_class.a_property()
