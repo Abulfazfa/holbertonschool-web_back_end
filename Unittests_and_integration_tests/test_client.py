@@ -4,35 +4,46 @@
 
 
 import unittest
-from unittest.mock import patch
-from utils import memoize
+from unittest.mock import patch, PropertyMock
+from client import GithubOrgClient
 
 
-class TestMemoize(unittest.TestCase):
+class TestGithubOrgClient(unittest.TestCase):
+    @patch('client.get_json')
+    def test_public_repos(self, mock_get_json):
+        """
+        Unit test for GithubOrgClient.public_repos method.
+        Mocks get_json and _public_repos_url to ensure proper functionality.
+        """
+        # Define the payload to be returned by the mocked get_json
+        mock_get_json.return_value = [
+            {"name": "repo1", "license": {"key": "apache-2.0"}},
+            {"name": "repo2", "license": {"key": "mit"}},
+            {"name": "repo3", "license": {"key": "apache-2.0"}}
+        ]
 
-    def test_memoize(self):
-        # Define the class with the memoize decorator
-        class TestClass:
-            def a_method(self):
-                return 42
+        # Mock _public_repos_url using patch as a context manager
+        with patch.object(GithubOrgClient, '_public_repos_url', new_callable=PropertyMock) as mock_repos_url:
+            mock_repos_url.return_value = "mocked_url"
 
-            @memoize
-            def a_property(self):
-                return self.a_method()
+            # Create an instance of GithubOrgClient
+            client = GithubOrgClient("google")
 
-        # Create an instance of TestClass
-        test_instance = TestClass()
+            # Call public_repos method without license filtering
+            repos = client.public_repos()
 
-        # Patch the a_method to observe its behavior when a_property is accessed
-        with patch.object(test_instance, 'a_method', return_value=42) as mock_method:
-            # Access a_property twice
-            first_call = test_instance.a_property
-            second_call = test_instance.a_property
+            # Assert the expected repo list matches the output
+            self.assertEqual(repos, ["repo1", "repo2", "repo3"])
 
-            # Assert that the method was called once and result is as expected
-            mock_method.assert_called_once()
-            self.assertEqual(first_call, 42)
-            self.assertEqual(second_call, 42)
+            # Call public_repos method with license filtering
+            repos_with_license = client.public_repos(license="apache-2.0")
+
+            # Assert the expected repo list matches the output when filtering by license
+            self.assertEqual(repos_with_license, ["repo1", "repo3"])
+
+            # Assert that _public_repos_url was accessed once and get_json was called once
+            mock_repos_url.assert_called_once()
+            mock_get_json.assert_called_once_with("mocked_url")
 
 
 if __name__ == '__main__':
