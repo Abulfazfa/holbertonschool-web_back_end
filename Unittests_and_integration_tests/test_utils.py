@@ -9,15 +9,23 @@ from utils import memoize
 
 
 class TestMemoize(unittest.TestCase):
+    """ TestMemoize class """
 
     def test_memoize(self):
-        # Define the class with the memoize decorator
+        """
+
+        Define the class with the memoize decorator
+
+        """
         class TestClass:
+            """ TestClass class """
             def a_method(self):
+                """ method """
                 return 42
 
             @memoize
             def a_property(self):
+                """ decorator """
                 return self.a_method()
 
         # Create an instance of TestClass
