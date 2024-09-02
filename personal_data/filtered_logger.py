@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
-""" Filtered logger """
-
+'''Filtered logger'''
 from typing import List
 import re
 import logging
 import mysql.connector
 import os
 
+
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
-def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
+
+def filter_datum(fields: List[str], redaction: str, message: str,
+                 separator: str) -> str:
     '''Filtering values of the required fields'''
     for item in fields:
-        message = re.sub(f"{item}=.*?{separator}", f"{item}={redaction}{separator}", message)
+        message = re.sub(f"{item}=.*?{separator}",
+                         f"{item}={redaction}{separator}", message)
     return message
 
 
 class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class
-        """
+    """ Redacting Formatter class """
 
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
@@ -29,11 +31,14 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        """Formatting method"""
-        return filter_datum(self.fields, self.REDACTION, super(RedactingFormatter, self).format(record), self.SEPARATOR)
+        '''Formatting methodj'''
+        return filter_datum(self.fields, self.REDACTION,
+                            super(RedactingFormatter, self).format(record),
+                            self.SEPARATOR)
+
 
 def get_logger() -> logging.Logger:
-    """ get logger() """
+    '''get logger()'''
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False
@@ -44,6 +49,7 @@ def get_logger() -> logging.Logger:
     logger.addHandler(stream)
     return logger
 
+
 def get_db() -> mysql.connector.connection.MySQLConnection:
     '''Get connector to database'''
     mydb = mysql.connector.connect(
@@ -53,3 +59,25 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=os.environ["PERSONAL_DATA_DB_NAME"]
     )
     return mydb
+
+
+def main() -> None:
+    '''Main method'''
+    connector = get_db()
+
+    cursor = connector.cursor()
+    cursor.execute("SELECT * FROM users")
+
+    data = cursor.fetchall()
+
+    logger = get_logger()
+
+    for line in data:
+        logger.info(line)
+
+    cursor.close()
+    connector.close()
+
+
+if __name__ == "__main__":
+    main()
