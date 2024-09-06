@@ -38,3 +38,24 @@ class DB:
         self._session.add(user)
         self._session.commit()
         return user
+
+    def find_user_by(self, **kwargs) -> User:
+        '''find user method'''
+        session = self._session
+        try:
+            results = session.query(User).filter_by(**kwargs).first()
+            if not results:
+                raise NoResultFound
+            return results
+        except InvalidRequestError:
+            raise
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        '''update data for user'''
+        session = self._session
+        updated_user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(updated_user, key):
+                raise ValueError
+            setattr(updated_user, key, value)
+        session.commit()
