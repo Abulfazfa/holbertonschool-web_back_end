@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6416ac0f-4cb7-4702-a5ea-a302c841e86b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/babel.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/babel.cfg" afterDir="false" />
-    </list>
+    <list default="true" id="6416ac0f-4cb7-4702-a5ea-a302c841e86b" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,9 +10,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2lVrHQ6wBb6sNWHv8NUtKKL73N3" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -24,6 +22,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/HP/Desktop/Holberton/holbertonschool-web_back_end",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -70,7 +69,11 @@
       <option name="presentableId" value="Default" />
       <updated>1725276002567</updated>
       <workItem from="1725276005354" duration="8000" />
+      <workItem from="1725621682617" duration="55000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
