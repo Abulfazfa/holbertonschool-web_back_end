@@ -15,6 +15,7 @@ def index():
     """
     return jsonify({"message": "Bienvenue"})
 
+
 @app.route('/users', methods=['POST'])
 def register_user() -> str:
     """ Make a new user """
@@ -34,6 +35,7 @@ def register_user() -> str:
 
     return jsonify(msg)
 
+
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
 def login() -> str:
     """login function"""
@@ -48,6 +50,7 @@ def login() -> str:
         return response
     else:
         abort(401)
+
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def logout() -> str:
