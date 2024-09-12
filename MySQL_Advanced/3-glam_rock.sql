@@ -1,6 +1,5 @@
 -- List bands with Glam rock style ranked by their longevity
 -- Select the database where you imported the data
-USE your_database_name;
 SELECT 
     band_name, 
     CASE 
@@ -9,4 +8,3 @@ SELECT
     END AS lifespan
 FROM metal_bands
 WHERE style LIKE '%Glam rock%'
-ORDER BY lifespan DESC;
