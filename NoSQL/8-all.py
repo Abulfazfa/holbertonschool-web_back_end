@@ -2,14 +2,12 @@
 """List all documents in Python
 """
 
-import pymongo
+from pymongo import MongoClient
 
 
 def list_all(mongo_collection) -> list:
     """List all documents in a collection
     """
-    mongo_collection = mongo_collection.find()
-    if mongo_collection.count() == 0:
-        return []
+   documents = list(mongo_collection.find({}))
 
-    return list(mongo_collection)
+    return documents
