@@ -9,7 +9,7 @@ def list_all(mongo_collection) -> list:
     """List all documents in a collection
     """
     documents = mongo_collection.find()
-    if mongo_collection.count() == 0:
+    if documents.count() == 0:
         return []
 
     return list(documents)
