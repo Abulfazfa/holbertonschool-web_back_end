@@ -21,7 +21,6 @@ def log_stats(mongo_collection, option=None):
     print(f"{result} logs")
     print("Methods:")
     for method in METHODS:
-        
         log_stats(nginx_collection, method)
     status_check = mongo_collection.count_documents({"path": "/status"})
     print(f"{status_check} status check")
