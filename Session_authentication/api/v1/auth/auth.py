@@ -1,38 +1,60 @@
 #!/usr/bin/env python3
-'''
-manage the API authentification
-'''
-from flask import request
-from typing import List, TypeVar
-
-
-class Auth:
-    """
-manage the API authentification
+""" User module
 """
-    def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        ''' require_authentification '''
-        if path is None:
-            return True
-        if excluded_paths is None:
-            return True
-        if len(excluded_paths) == 0:
-            return True
-        if path is None or excluded_paths is None:
-            return True
-        path = path + '/' if path[-1] != '/' else path
-        if path in excluded_paths:
+import hashlib
+from models.base import Base
+
+
+class User(Base):
+    """ User class
+    """
+
+    def __init__(self, *args: list, **kwargs: dict):
+        """ Initialize a User instance
+        """
+        super().__init__(*args, **kwargs)
+        self.email = kwargs.get('email')
+        self._password = kwargs.get('_password')
+        self.first_name = kwargs.get('first_name')
+        self.last_name = kwargs.get('last_name')
+
+    @property
+    def password(self) -> str:
+        """ Getter of the password
+        """
+        return self._password
+
+    @password.setter
+    def password(self, pwd: str):
+        """ Setter of a new password: encrypt in SHA256
+        """
+        if pwd is None or type(pwd) is not str:
+            self._password = None
+        else:
+            self._password = hashlib.sha256(pwd.encode()).hexdigest().lower()
+
+    def is_valid_password(self, pwd: str) -> bool:
+        """ Validate a password
+        """
+        if pwd is None or type(pwd) is not str:
             return False
-        return True
+        if self.password is None:
+            return False
+        pwd_e = pwd.encode()
+        return hashlib.sha256(pwd_e).hexdigest().lower() == self.password
 
-    def authorization_header(self, request=None) -> str:
-        """ authorization_header
+    def display_name(self) -> str:
+        """ Display User name based on email/first_name/last_name
         """
-        if request is None or 'Authorization' not in request.headers:
-            return None
-        return request.headers['Authorization']
-
-    def current_user(self, request=None) -> TypeVar('User'):
-        """ current_user
-        """
-        return None
+        if self.email is None and self.first_name is None \
+                and self.last_name is None:
+            return ""
+        if self.first_name is None and self.last_name is None:
+            return "{}".format(self.email)
+        if self.last_name is None:
+            return "{}".format(self.first_name)
+        if self.first_name is None:
+            return "{}".format(self.last_name)
+        else:
+            return "{} {}".format(self.first_name, self.last_name)
+            
