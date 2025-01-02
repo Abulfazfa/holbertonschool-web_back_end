@@ -1,23 +1,18 @@
 #!/usr/bin/env python3
-""" Module of Session in Database
+""" Module of Session Expiration Authentication
 """
+
 from api.v1.auth.session_exp_auth import SessionExpAuth
-from datetime import datetime, timedelta
 from models.user_session import UserSession
+from datetime import datetime, timedelta
 
 
 class SessionDBAuth(SessionExpAuth):
-    """Session in database Class"""
+    """ SessionDBAuth class
+    """
 
     def create_session(self, user_id=None):
-        """
-            Make a new Session to Database
-
-            Args:
-                user_id: Identificator of the user_id
-
-            Return:
-                Session ID
+        """ Create a Session ID
         """
         session_id = super().create_session(user_id)
 
@@ -98,4 +93,3 @@ class SessionDBAuth(SessionExpAuth):
             return False
 
         return True
-        

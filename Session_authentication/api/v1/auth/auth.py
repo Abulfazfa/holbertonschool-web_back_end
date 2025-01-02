@@ -1,60 +1,54 @@
 #!/usr/bin/env python3
-""" User module
+""" Auth module
 """
-import hashlib
-from models.base import Base
+
+from flask import request
+from typing import List, TypeVar
+from os import getenv
 
 
-class User(Base):
-    """ User class
+class Auth:
+    """ Auth class for the API
     """
 
-    def __init__(self, *args: list, **kwargs: dict):
-        """ Initialize a User instance
+    def __init__(self):
+        """ Constructor of the Auth class
         """
-        super().__init__(*args, **kwargs)
-        self.email = kwargs.get('email')
-        self._password = kwargs.get('_password')
-        self.first_name = kwargs.get('first_name')
-        self.last_name = kwargs.get('last_name')
 
-    @property
-    def password(self) -> str:
-        """ Getter of the password
+    def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
+        """ require_auth method that returns
+        True if the path is not in the list
         """
-        return self._password
 
-    @password.setter
-    def password(self, pwd: str):
-        """ Setter of a new password: encrypt in SHA256
-        """
-        if pwd is None or type(pwd) is not str:
-            self._password = None
-        else:
-            self._password = hashlib.sha256(pwd.encode()).hexdigest().lower()
+        if path is None or excluded_paths is None or excluded_paths == []:
+            return True
 
-    def is_valid_password(self, pwd: str) -> bool:
-        """ Validate a password
-        """
-        if pwd is None or type(pwd) is not str:
-            return False
-        if self.password is None:
-            return False
-        pwd_e = pwd.encode()
-        return hashlib.sha256(pwd_e).hexdigest().lower() == self.password
+        for exclude_path in excluded_paths:
+            if path.strip("/") in exclude_path.strip("/"):
+                return False
 
-    def display_name(self) -> str:
-        """ Display User name based on email/first_name/last_name
+        return True
+
+    def authorization_header(self, request=None) -> str:
+        """ authorization_header method that returns None
         """
-        if self.email is None and self.first_name is None \
-                and self.last_name is None:
-            return ""
-        if self.first_name is None and self.last_name is None:
-            return "{}".format(self.email)
-        if self.last_name is None:
-            return "{}".format(self.first_name)
-        if self.first_name is None:
-            return "{}".format(self.last_name)
-        else:
-            return "{} {}".format(self.first_name, self.last_name)
-            
+        if request is None:
+            return None
+
+        return request.headers.get('Authorization', None)
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """ current_user method that returns None
+        """
+        return request
+
+    def session_cookie(self, request=None):
+        """ session_cookie method that returns None
+        """
+        if request is None:
+            return None
+
+        session_env = getenv('SESSION_NAME', None)
+        cookie = request.cookies.get(session_env, None)
+
+        return cookie
